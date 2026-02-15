@@ -1,41 +1,131 @@
 
-    <html>
+    <!DOCTYPE html>
+    <html lang="es">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Kanela AI QA - V6</title>
         <style>
-            body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
-            .card { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; display: flex; gap: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-            img { max-width: 300px; max-height: 300px; object-fit: contain; border: 1px solid #ddd; }
-            .info { flex: 1; }
-            h2 { margin-top: 0; color: #333; }
-            .badge { background: #eee; padding: 4px 8px; border-radius: 4px; font-size: 0.9em; font-weight: bold; margin-right: 5px; }
-            .punk { background: #ffcccc; color: #990000; }
-            .gotico { background: #e0e0e0; color: #000; }
-            .clasico { background: #e6f3ff; color: #0066cc; }
-            pre { background: #222; color: #0f0; padding: 10px; overflow-x: auto; white-space: pre-wrap; }
-        </style>
+    :root {
+        --bg-color: #f4f4f9;
+        --card-bg: #ffffff;
+        --text-color: #333333;
+        --border-color: #eeeeee;
+        --badge-bg: #eef;
+        --badge-text: #333;
+        --accent: #2c3e50;
+        --shadow: rgba(0,0,0,0.05);
+    }
+    
+    [data-theme="dark"] {
+        --bg-color: #121212;
+        --card-bg: #1e1e1e;
+        --text-color: #e0e0e0;
+        --border-color: #333;
+        --badge-bg: #333;
+        --badge-text: #ccc;
+        --accent: #bb86fc;
+        --shadow: rgba(0,0,0,0.5);
+    }
+
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg-color); color: var(--text-color); padding: 20px; transition: background 0.3s, color 0.3s; }
+    h1 { text-align: center; color: var(--accent); }
+    
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
+    
+    .card { 
+        background: var(--card-bg); border-radius: 12px; 
+        box-shadow: 0 4px 6px var(--shadow); display: flex; 
+        overflow: hidden; border: 1px solid var(--border-color); 
+        transition: transform 0.2s;
+    }
+    .card:hover { transform: translateY(-2px); }
+    
+    .img-box { 
+        width: 150px; padding: 10px; display: flex; flex-direction: column; 
+        align-items: center; justify-content: center; 
+        border-right: 1px solid var(--border-color);
+        background: var(--card-bg);
+    }
+    
+    img { width: 140px; height: 140px; object-fit: contain; }
+    /* Baja el brillo de las fotos en modo oscuro para que no encandilen */
+    [data-theme="dark"] img { filter: brightness(0.9); }
+
+    .timer { font-size: 0.8rem; margin-top: 5px; opacity: 0.7; }
+    
+    .info { padding: 15px; flex: 1; }
+    h2 { font-size: 1rem; margin: 0 0 10px 0; color: var(--text-color); }
+    
+    .badges { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+    .badge { 
+        font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; 
+        background: var(--badge-bg); color: var(--badge-text); border: 1px solid var(--border-color); 
+    }
+    
+    .desc { font-size: 0.85rem; opacity: 0.9; border-top: 1px solid var(--border-color); padding-top: 10px; }
+    details { margin-top: 5px; cursor: pointer; color: var(--accent); }
+    
+    /* Botón Flotante */
+    .theme-toggle {
+        position: fixed; top: 20px; right: 20px;
+        background: var(--card-bg); border: 1px solid var(--border-color);
+        color: var(--text-color); padding: 10px 15px; border-radius: 30px;
+        cursor: pointer; box-shadow: 0 4px 10px var(--shadow);
+        font-size: 1.2rem; z-index: 1000;
+    }
+    </style>
     </head>
     <body>
-        <h1>💎 Catálogo Visual Kanela (Control de Calidad)</h1>
+        <button id="theme-toggle" class="theme-toggle" onclick="toggleTheme()">🌙 Modo Oscuro</button>
+        <h1>💎 Catálogo Visual Kanela V6</h1>
+        <div class="grid">
     
         <div class="card">
-            <div style="text-align:center;">
-                <img src="./imagenes_a_procesar/dije-crisantemo-01.jpg" alt="Producto">
-                <p>⏱️ 484.0s</p>
+            <div class="img-box">
+                <img src="./imagenes_a_procesar/dije-crisantemo-01.jpg" onerror="this.src='https://placehold.co/150?text=Error'">
+                <span class="timer">⏱️ 425.52s</span>
             </div>
             <div class="info">
-                <h2>Daisy Charm Acero Dorado Rosa</h2>
-                <p>
-                    <span class="badge" style="background:#ddd;">Bijouterie/Aros/Colgantes</span>
-                    <span class="badge clásico">Clásico</span>
+                <h2>Dije Flor Rosa</h2>
+                <div class="badges">
+                    <span class="badge">Bijouterie/Dijes</span>
+                    <span class="badge">Clásico</span>
                     <span class="badge">Aleación</span>
                     <span class="badge">Rosa</span>
-                    <span class="badge">Mujer</span>
-                </p>
-                <hr>
-                <div><ul><li>Charm de flores para joyería</li><li>Material de aleación dorada</li><li>Color rosa</li></ul></div>
-                <hr>
-                <small>📍 Tags: Córdoba, Nueva Córdoba, Joyería, Charm, Flores, Aleación, Dorado, Rosa</small>
+                </div>
+                <div class="desc">
+                    Dije en forma de flor con detalles dorados y un color rosa suave....
+                    <details><summary>Ver Completo</summary><p>Este delicado dije en forma de flor es perfecto para cualquier ocasión. Con detalles dorados en el centro y los pétalos, este dije se adapta a cualquier estilo de joyería. El color rosa suave añade un toque de elegancia y frescura a tu look.</p></details>
+                </div>
             </div>
-        </div>
-        </body></html>
+        </div></div>
+    <script>
+        const toggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+        
+        // Cargar preferencia guardada
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme) {
+            body.setAttribute('data-theme', currentTheme);
+            updateIcon(currentTheme);
+        }
+
+        function toggleTheme() {
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+                updateIcon('light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                updateIcon('dark');
+            }
+        }
+        
+        function updateIcon(theme) {
+            const btn = document.getElementById('theme-toggle');
+            btn.innerHTML = theme === 'dark' ? '☀️ Modo Luz' : '🌙 Modo Oscuro';
+        }
+    </script>
+    </body></html>

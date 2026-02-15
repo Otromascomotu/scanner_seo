@@ -23,44 +23,34 @@ ARCHIVO_JSON = "productos_kanela.json"
 ARCHIVO_EXCEL = "catalogo_kanela.xlsx"
 ARCHIVO_HTML = "ver_productos.html"
 
-# --- PROMPT ANTI-ALUCINACIONES (V4) ---
+# --- PROMPT (V4) ---
 SYSTEM_PROMPT = """
 ROL: Eres el Gerente de Catálogo de "Kanela by Anier" (Córdoba, Argentina).
-IDIOMA ESTRICTO: ESPAÑOL Rioplatense/Neutro. PROHIBIDO INGLÉS (Ej: No usar "Charm", usar "Dije". No usar "Gold", usar "Dorado").
+IDIOMA ESTRICTO: ESPAÑOL Rioplatense/Neutro. PROHIBIDO INGLÉS.
 
-TU MISIÓN: Analizar la imagen, determinar la coherencia visual y generar JSON.
+TU MISIÓN: Analizar la imagen y generar JSON estricto.
 
-REGLAS DE LÓGICA VISUAL:
-1. Dije vs Colgante: Pieza pequeña con argolla simple = "Bijouterie/Dijes". Cadena incluida o grande = "Colgante".
-2. Material: 
-   - Brillo fantasía -> "aleacion".
-   - Gris pulido -> "acero plateado".
-   - Dorado intenso -> "acero dorado" (o aleacion si parece fantasía).
-   - REGLA: Si es "aleacion", NUNCA pongas "Acero" en el título.
+REGLAS VISUALES:
+1. Dije vs Colgante: Pequeño con argolla = "Bijouterie/Dijes". Grande/con cadena = "Colgante".
+2. Material: Brillo fantasía -> "aleacion". Gris pulido -> "acero plateado". Dorado -> "acero dorado" (o aleacion).
+3. Si es "aleacion", NUNCA pongas "Acero" en el título.
 
-LISTAS CERRADAS (Elige EXACTAMENTE una opción):
+LISTAS CERRADAS:
 A. CATEGORÍA: Bijouterie/Dijes, Bijouterie/Aros/Argollas, Bijouterie/Aros/Colgantes, Bijouterie/Aros/Ear Cuffs, Bijouterie/Pulseras, Bijouterie/Tobilleras, Bijouterie/Cadenas, Bijouterie/Collares Diseño, Bijouterie/Gargantillas, Bijouterie/Conjuntos, Bijouterie/Piercings, Carteras/Totes, Carteras/Bandoleras, Carteras/Sobres, Accesorios/Llaveros
 B. ESTILO: Clasico, Punk, Gotico
 C. MATERIAL: aleacion, acero dorado, acero plateado, lona, ecocuero
-D. COLOR: rosa, rojo, blanco, beige, verde, marron, bordo, negro, azul, amarillo, dorado, plateado, multicolor.
-E. GÉNERO: mujer, hombre, unisex.
+D. COLOR: rosa, rojo, blanco, beige, verde, marron, bordo, negro, azul, amarillo, dorado, plateado, multicolor
+E. GÉNERO: mujer, hombre, unisex
 
---- FORMATO JSON ---
+--- JSON ---
 {
-  "nombre_archivo": "...",
-  "titulo": "...", 
-  "categoria_producto": "...",
-  "estilo_producto": "...",
-  "material_producto": "...",
-  "color_producto": "...",
-  "genero_producto": "...",
-  "short_description": "...",
-  "long_description": "...",
-  "tags": "..."
+  "nombre_archivo": "...", "titulo": "...", 
+  "categoria_producto": "...", "estilo_producto": "...", "material_producto": "...", 
+  "color_producto": "...", "genero_producto": "...", 
+  "short_description": "...", "long_description": "...", "tags": "..."
 }
 """
 
-# Configuración Visual para Terminal
 custom_theme = Theme({"success": "green", "error": "bold red", "info": "cyan"})
 console = Console(theme=custom_theme)
 client = Client(host=OLLAMA_HOST)
@@ -73,71 +63,72 @@ def limpiar_json(texto):
 
 
 def generar_reporte_html(datos):
-    """Genera HTML con Modo Oscuro persistente"""
+    """Genera HTML con Modo Oscuro y Etiquetas Explícitas"""
 
-    # CSS con Variables para facilitar el cambio de tema
     css = """
     :root {
-        --bg-color: #f4f4f9;
-        --card-bg: #ffffff;
-        --text-color: #333333;
-        --border-color: #eeeeee;
-        --badge-bg: #eef;
-        --badge-text: #333;
-        --accent: #2c3e50;
-        --shadow: rgba(0,0,0,0.05);
+        --bg-color: #f4f4f9; --card-bg: #ffffff; --text-color: #333333;
+        --border-color: #eeeeee; --badge-bg: #f8f9fa; --badge-text: #333;
+        --accent: #2c3e50; --shadow: rgba(0,0,0,0.05);
+        --key-color: #666; /* Color para el título de la etiqueta */
     }
     
     [data-theme="dark"] {
-        --bg-color: #121212;
-        --card-bg: #1e1e1e;
-        --text-color: #e0e0e0;
-        --border-color: #333;
-        --badge-bg: #333;
-        --badge-text: #ccc;
-        --accent: #bb86fc;
-        --shadow: rgba(0,0,0,0.5);
+        --bg-color: #121212; --card-bg: #1e1e1e; --text-color: #e0e0e0;
+        --border-color: #333; --badge-bg: #2c2c2c; --badge-text: #ccc;
+        --accent: #bb86fc; --shadow: rgba(0,0,0,0.5);
+        --key-color: #aaa;
     }
 
-    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg-color); color: var(--text-color); padding: 20px; transition: background 0.3s, color 0.3s; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg-color); color: var(--text-color); padding: 20px; transition: 0.3s; }
     h1 { text-align: center; color: var(--accent); }
     
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 20px; }
     
     .card { 
         background: var(--card-bg); border-radius: 12px; 
         box-shadow: 0 4px 6px var(--shadow); display: flex; 
         overflow: hidden; border: 1px solid var(--border-color); 
-        transition: transform 0.2s;
     }
-    .card:hover { transform: translateY(-2px); }
     
     .img-box { 
-        width: 150px; padding: 10px; display: flex; flex-direction: column; 
-        align-items: center; justify-content: center; 
+        width: 160px; padding: 10px; display: flex; flex-direction: column; 
+        align-items: center; justify-content: center; background: var(--card-bg); 
         border-right: 1px solid var(--border-color);
-        background: var(--card-bg);
     }
     
-    img { width: 140px; height: 140px; object-fit: contain; }
-    /* Baja el brillo de las fotos en modo oscuro para que no encandilen */
-    [data-theme="dark"] img { filter: brightness(0.9); }
+    img { width: 150px; height: 150px; object-fit: contain; transition: 0.3s; }
+    [data-theme="dark"] img { filter: brightness(0.85) contrast(1.1); }
 
     .timer { font-size: 0.8rem; margin-top: 5px; opacity: 0.7; }
     
     .info { padding: 15px; flex: 1; }
-    h2 { font-size: 1rem; margin: 0 0 10px 0; color: var(--text-color); }
+    h2 { font-size: 1.1rem; margin: 0 0 15px 0; color: var(--text-color); line-height: 1.2; }
     
-    .badges { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
-    .badge { 
-        font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; 
-        background: var(--badge-bg); color: var(--badge-text); border: 1px solid var(--border-color); 
+    /* BADGES / ETIQUETAS */
+    .specs-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Dos columnas */
+        gap: 8px;
+        margin-bottom: 15px;
     }
+    
+    .spec-item {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+        border-radius: 6px;
+        background: var(--badge-bg);
+        border: 1px solid var(--border-color);
+        color: var(--badge-text);
+        display: flex;
+        align-items: center;
+    }
+    
+    .spec-key { font-weight: bold; color: var(--key-color); margin-right: 5px; }
     
     .desc { font-size: 0.85rem; opacity: 0.9; border-top: 1px solid var(--border-color); padding-top: 10px; }
     details { margin-top: 5px; cursor: pointer; color: var(--accent); }
     
-    /* Botón Flotante */
     .theme-toggle {
         position: fixed; top: 20px; right: 20px;
         background: var(--card-bg); border: 1px solid var(--border-color);
@@ -147,55 +138,31 @@ def generar_reporte_html(datos):
     }
     """
 
-    # Javascript para cambiar y guardar la preferencia
     js = """
     <script>
-        const toggleBtn = document.getElementById('theme-toggle');
         const body = document.body;
-        
-        // Cargar preferencia guardada
         const currentTheme = localStorage.getItem('theme');
-        if (currentTheme) {
-            body.setAttribute('data-theme', currentTheme);
-            updateIcon(currentTheme);
-        }
+        if (currentTheme) body.setAttribute('data-theme', currentTheme);
+        updateIcon(currentTheme || 'light');
 
         function toggleTheme() {
-            if (body.getAttribute('data-theme') === 'dark') {
-                body.setAttribute('data-theme', 'light');
-                localStorage.setItem('theme', 'light');
-                updateIcon('light');
-            } else {
-                body.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-                updateIcon('dark');
-            }
+            const newTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
         }
-        
         function updateIcon(theme) {
-            const btn = document.getElementById('theme-toggle');
-            btn.innerHTML = theme === 'dark' ? '☀️ Modo Luz' : '🌙 Modo Oscuro';
+            document.getElementById('theme-toggle').innerText = theme === 'dark' ? '☀️ Luz' : '🌙 Oscuro';
         }
     </script>
     """
 
-    html = f"""
-    <!DOCTYPE html>
-    <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Kanela AI QA - V6</title>
-        <style>{css}</style>
-    </head>
-    <body>
-        <button id="theme-toggle" class="theme-toggle" onclick="toggleTheme()">🌙 Modo Oscuro</button>
-        <h1>💎 Catálogo Visual Kanela V6</h1>
-        <div class="grid">
-    """
+    html = f"""<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Kanela AI V7</title><style>{css}</style></head><body><button id="theme-toggle" class="theme-toggle" onclick="toggleTheme()">🌙</button><h1>💎 Catálogo Visual Kanela V7</h1><div class="grid">"""
 
     for p in datos:
         ruta = f"./imagenes_a_procesar/{p.get('origen', '')}"
+
+        # AQUÍ ESTÁ LA CORRECCIÓN: Labels explícitos y Género incluido
         html += f"""
         <div class="card">
             <div class="img-box">
@@ -203,13 +170,16 @@ def generar_reporte_html(datos):
                 <span class="timer">⏱️ {p.get("tiempo_segundos", 0)}s</span>
             </div>
             <div class="info">
-                <h2>{p.get("titulo", "Error de Lectura")}</h2>
-                <div class="badges">
-                    <span class="badge">{p.get("categoria_producto")}</span>
-                    <span class="badge">{p.get("estilo_producto")}</span>
-                    <span class="badge">{p.get("material_producto")}</span>
-                    <span class="badge">{p.get("color_producto")}</span>
+                <h2>{p.get("titulo", "Error")}</h2>
+                
+                <div class="specs-grid">
+                    <div class="spec-item"><span class="spec-key">📂 Categoría:</span> {p.get("categoria_producto")}</div>
+                    <div class="spec-item"><span class="spec-key">✨ Estilo:</span> {p.get("estilo_producto")}</div>
+                    <div class="spec-item"><span class="spec-key">🛠️ Material:</span> {p.get("material_producto")}</div>
+                    <div class="spec-item"><span class="spec-key">🎨 Color:</span> {p.get("color_producto")}</div>
+                    <div class="spec-item"><span class="spec-key">👤 Género:</span> {p.get("genero_producto")}</div>
                 </div>
+
                 <div class="desc">
                     {p.get("short_description", "")[:120]}...
                     <details><summary>Ver Completo</summary><p>{p.get("long_description")}</p></details>
@@ -218,7 +188,6 @@ def generar_reporte_html(datos):
         </div>"""
 
     html += f"</div>{js}</body></html>"
-
     with open(ARCHIVO_HTML, "w", encoding="utf-8") as f:
         f.write(html)
 
@@ -260,18 +229,16 @@ def analizar_carpeta():
         return
 
     console.print(
-        f"[bold green]🚀 Iniciando Scanner V6 (Dark Mode Ready) con {MODELO_SEO}...[/]"
+        f"[bold green]🚀 Iniciando Scanner V7 (Fixed UI) con {MODELO_SEO}...[/]"
     )
-
     resultados = []
     if os.path.exists(ARCHIVO_JSON):
         try:
             with open(ARCHIVO_JSON, "r", encoding="utf-8") as f:
                 resultados = json.load(f)
-        except Exception:
-            pass  # PEP 8 Clean
+        except:
+            pass
 
-    # Barra de Progreso Viva
     with Progress(
         SpinnerColumn("dots"),
         TextColumn("[bold blue]{task.description}"),
@@ -280,17 +247,14 @@ def analizar_carpeta():
         TimeElapsedColumn(),
         console=console,
     ) as progress:
-        task_total = progress.add_task("[green]Progreso Total", total=len(archivos))
-
+        task_total = progress.add_task("[green]Total", total=len(archivos))
         for imagen_path in archivos:
             nombre = os.path.basename(imagen_path)
-
             if any(d.get("origen") == nombre for d in resultados):
                 progress.advance(task_total)
                 continue
 
             task_img = progress.add_task(f"Analizando {nombre}...", total=None)
-
             inicio = time.time()
             try:
                 response = client.chat(
@@ -304,27 +268,19 @@ def analizar_carpeta():
                     ],
                     options={"temperature": 0.1, "num_ctx": 4096},
                 )
-
                 duracion = round(time.time() - inicio, 2)
                 progress.remove_task(task_img)
-
                 content = limpiar_json(response["message"]["content"])
                 data = json.loads(content)
                 data["origen"] = nombre
                 data["tiempo_segundos"] = duracion
-
                 resultados.append(data)
                 guardar_resultados(resultados)
-
             except Exception as e:
                 progress.remove_task(task_img)
-                console.print(f"[red]❌ Error con {nombre}: {e}[/]")
-
+                console.print(f"[red]Error: {e}[/]")
             progress.advance(task_total)
-
-    console.print(
-        f"\n[bold green]🏁 ¡Listo! Abre {ARCHIVO_HTML} y prueba el botón 'Modo Oscuro'.[/]"
-    )
+    console.print(f"\n[bold green]🏁 Listo: {ARCHIVO_HTML}[/]")
 
 
 if __name__ == "__main__":
