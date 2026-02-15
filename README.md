@@ -75,3 +75,30 @@ Prohibiciones: No usa palabras genéricas como "lindo" o "barato".
 
 Formato: Salida estricta en JSON para evitar errores de parseo.
 
+
+## 📂 Procesamiento Masivo (Lotes)
+
+El sistema ahora soporta subcarpetas y optimización de lotes:
+
+1.  **Carpetas Recursivas:** Puedes organizar tus imágenes en subdirectorios dentro de `imagenes_a_procesar`.
+    *   Ejemplo:
+        ```text
+        imagenes_a_procesar/
+        ├── anillos/
+        │   └── anillo-calavera.jpg
+        ├── dijes/
+        │   └── dije-corazon.jpg
+        └── lote_2024/
+            └── foto1.jpg
+        ```
+    *   El reporte mostrará la ruta relativa (ej: `dijes/dije-corazon.jpg`).
+
+2.  **Optimización (Skip Logic):**
+    *   Si el script se interrumpe, **no te preocupes**.
+    *   Al reiniciarlo, detectará qué imágenes ya están procesadas (en `productos_kanela.json`) y las saltará instantáneamente.
+    *   Puedes agregar carpetas nuevas progresivamente.
+
+### 💡 Recomendación de Hardware (RTX 2060 6GB)
+*   **Tamaño de Lote Ideal:** 50 a 100 imágenes por ejecución.
+*   **Tiempo Estimado:** ~15 minutos por lote.
+*   **Recomendación:** Procesa un lote, revisa el HTML brevemente, y carga el siguiente.

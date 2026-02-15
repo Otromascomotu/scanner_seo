@@ -1,5 +1,48 @@
 [
     {
+        "nombre_archivo": "dije_heart_with_dots",
+        "titulo": "Dije con Corazón y Dots",
+        "categoria_producto": "Bijouterie/Dijes",
+        "estilo_producto": "Clásico",
+        "material_producto": "Aleación",
+        "color_producto": "Multicolor",
+        "genero_producto": "Mujer",
+        "short_description": "Dije con forma de corazón y puntos rojos en un fondo de color rosa. Diseño clásico con detalles dorados.",
+        "long_description": "Este dije es una joyería de alta calidad, hecho de aleación de alta precisión. El diseño es clásico y elegante, con un corazón en el centro y puntos rojos que dan un toque de color y personalidad. El dorado en los detalles añade un toque de elegancia y sofisticación. Perfecto para cualquier ocasión y para aquellos que aprecian la joyería de alta calidad.",
+        "tags": [
+            "Dije",
+            "Corazón",
+            "Dots",
+            "Elegante",
+            "Clásico",
+            "Aleación",
+            "Dorado"
+        ],
+        "origen": "dijes/dije-corazon-decorado-acero-esmaltado-rosado-punteado-borde-madera2.jpg",
+        "tiempo_segundos": 131.23
+    },
+    {
+        "nombre_archivo": "piedra",
+        "titulo": "Pendiente Corazón Dorado con Piedras Negras",
+        "categoria_producto": "Bijouterie/Dijes",
+        "estilo_producto": "Clásico",
+        "material_producto": "Acero dorado (Dorado Filled)",
+        "color_producto": "Dorado",
+        "genero_producto": "Mujer",
+        "short_description": "Pendiente con forma de corazón dorado y detalles en piedras negras.",
+        "long_description": "Este pendiente dorado con detalles en piedras negras es una joya clásica que combina elegancia y sofisticación. El dorado del corazón y los detalles en piedras negras crean un contraste visual atractivo, mientras que la textura de la piedra negra añade un toque de elegancia y sofisticación. Perfecto para cualquier ocasión, este pendiente es una joya que se puede lucir con cualquier atuendo.",
+        "tags": [
+            "pendiente",
+            "corazón",
+            "dorado",
+            "piedras negras",
+            "joyería",
+            "clásico"
+        ],
+        "origen": "dijes/dije-corazon-en-llamas-dorado-con-piedras-negras.jpg",
+        "tiempo_segundos": 200.47
+    },
+    {
         "nombre_archivo": "dije_flor_pink",
         "titulo": "Dije Flor Rosa",
         "categoria_producto": "Bijouterie/Dijes",
@@ -7,17 +50,386 @@
         "material_producto": "Aleación",
         "color_producto": "Rosa",
         "genero_producto": "Mujer",
-        "short_description": "Dije en forma de flor con detalles dorados en el centro y en los bordes.",
-        "long_description": "Este adorable dije en forma de flor es perfecto para cualquier joyería. Con detalles dorados en el centro y en los bordes, este dije añade un toque de elegancia a cualquier collar o pulsera. El material aleación asegura un acabado duradero y resistente.",
+        "short_description": "Dije en forma de flor con detalles dorados en un color rosa pastel.",
+        "long_description": "Este adorable dije en forma de flor es perfecto para cualquier joyería. Con detalles dorados en el centro y en los bordes, este dije añade un toque de elegancia a cualquier collar o pulsera. El color rosa pastel es suave y agradable, ideal para una apariencia delicada y femenina.",
+        "tags": [
+            "Dije",
+            "Flor",
+            "Rosa",
+            "Elegante",
+            "Femenino"
+        ],
+        "origen": "dijes/dije-crisantemo-01.jpg",
+        "tiempo_segundos": 388.83
+    },
+    {
+        "nombre_archivo": "tattoo_black_cat_ear",
+        "titulo": "Tatuaje de Gato Negro en la Oreja",
+        "categoria_producto": "Bijouterie/Dijes",
+        "estilo_producto": "Gotico",
+        "material_producto": "aleacion",
+        "color_producto": "negro",
+        "genero_producto": "mujer",
+        "short_description": "Tatuaje de un gato negro con ojos rojos en la oreja.",
+        "long_description": "Este tatuaje de un gato negro con ojos rojos es una pieza única y elegante que combina el estilo gotico con un toque de misterio. El diseño es pequeño y se adapta perfectamente a la oreja, creando un look único y personalizado.",
+        "tags": [
+            "tatuaje",
+            "gato",
+            "negro",
+            "oreja",
+            "gotico"
+        ],
+        "origen": "aros/aros-aretes-gato-sentado-acero-negro.jpg",
+        "tiempo_segundos": 89.23
+    },
+    {
+        "nombre_archivo": "dije_octopus.jpg",
+        "titulo": "Dije Oro Octopus",
+        "categoria_producto": "Bijouterie/Dijes",
+        "estilo_producto": "Clásico",
+        "material_producto": "Acero dorado (Dorado Filled)",
+        "color_producto": "Dorado",
+        "genero_producto": "Mujer",
+        "short_description": "Dije de oro con diseño de pulpo en forma de octopus.",
+        "long_description": "Este elegante dije de oro dorado (Dorado Filled) presenta un diseño de pulpo en forma de octopus, perfecto para una apariencia sofisticada y elegante. El material de acero dorado garantiza durabilidad y resistencia, mientras que el diseño único y creativo lo convierte en un accesorio único y distintivo.",
+        "tags": [
+            "dije",
+            "oro",
+            "octopus",
+            "diseño",
+            "elegante"
+        ],
+        "origen": "aros/aros-aretes-pulpo-dorado.jpg",
+        "tiempo_segundos": 72.17
+    },
+    {
+        "nombre_archivo": "ear_stud",
+        "titulo": "Piercing de oreja con cristal",
+        "categoria_producto": "Bijouterie/Dijes",
+        "estilo_producto": "Clásico",
+        "material_producto": "Aleación",
+        "color_producto": "Blanco",
+        "genero_producto": "Mujer",
+        "short_description": "Piercing de oreja con cristal de alta calidad.",
+        "long_description": "Este piercing de oreja está hecho de aleación de alta calidad, con un cristal de alta calidad que brilla intensamente. Es perfecto para una apariencia clásica y elegante.",
+        "tags": [
+            "piercing",
+            "oreja",
+            "cristal",
+            "aleación",
+            "clásico"
+        ],
+        "origen": "aros/aros-aretes-circon-plata.jpg",
+        "tiempo_segundos": 143.16
+    },
+    {
+        "nombre_archivo": "dije_bijouterie",
+        "titulo": "Dije de Acero Dorado con Corazón",
+        "categoria_producto": "Bijouterie/Dijes",
+        "estilo_producto": "Clásico",
+        "material_producto": "Acero Dorado (Dorado Filled)",
+        "color_producto": "Dorado",
+        "genero_producto": "Mujer",
+        "short_description": "Dije de acero dorado con un corazón grabado en el centro.",
+        "long_description": "Este elegante díje de acero dorado es perfecto para cualquier ocasión. El diseño clásico con un corazón grabado en el centro añade un toque romántico y único a tu look. El acero dorado es duradero y resistente, lo que lo hace ideal para usar en diferentes situaciones. El acabado dorado brilla y atrae la atención, lo que lo hace perfecto para lucir en eventos formales o en tu día a día.",
+        "tags": [
+            "dije",
+            "acero dorado",
+            "corazón",
+            "dije de acero dorado",
+            "dije clásico",
+            "dije elegante",
+            "dije para mujer",
+            "dije para eventos formales",
+            "dije para día a día"
+        ],
+        "origen": "aros/aros-aretes-perro-gato-acero-plateado.jpg",
+        "tiempo_segundos": 169.59
+    },
+    {
+        "nombre_archivo": "dije_flor_dorado",
+        "titulo": "Dije Flor Dorado",
+        "categoria_producto": "Bijouterie/Dijes",
+        "estilo_producto": "Clásico",
+        "material_producto": "Acero dorado (Dorado Filled)",
+        "color_producto": "Dorado",
+        "genero_producto": "Mujer",
+        "short_description": "Dije dorado con forma de flor.",
+        "long_description": "Este dije dorado con forma de flor es una joyería clásica que combina elegancia y estilo. Fabricado en acero dorado (Dorado Filled), este dije es perfecto para complementar cualquier look. Su diseño minimalista y delicado lo hace ideal para usar en diferentes ocasiones, desde eventos formales hasta días más casuales.",
         "tags": [
             "dije",
             "flor",
-            "rosa",
-            "aleación",
+            "dorado",
             "joyería",
-            "dorado"
+            "clásico"
         ],
-        "origen": "dije-crisantemo-01.jpg",
-        "tiempo_segundos": 22.03
+        "origen": "aros/aros-aretes-flor-acero-dorado.jpg",
+        "tiempo_segundos": 96.33
+    },
+    {
+        "nombre_archivo": "Tote Bag",
+        "titulo": "Tote Bag con Diseño de Gatos",
+        "categoria_producto": "Carteras/Totes",
+        "estilo_producto": "Clásico",
+        "material_producto": "Lona",
+        "color_producto": "Negro",
+        "genero_producto": "Mujer",
+        "short_description": "Tote Bag con diseño de gatos en negro con detalles en blanco y negro.",
+        "long_description": "Este tote bag es perfecto para llevar tus necesidades diarias en un estilo clásico y elegante. El diseño de gatos en negro con detalles en blanco y negro le da un toque único y divertido. El material lona es duradero y resistente, lo que lo hace ideal para viajes o compras. El bolsillo interior es perfecto para guardar tus pequeñas necesidades.",
+        "tags": [
+            "Tote Bag",
+            "Diseño de Gatos",
+            "Lona",
+            "Negro",
+            "Clásico",
+            "Mujer"
+        ],
+        "origen": "totes/tote-caricatura-perro-gato.jpg",
+        "tiempo_segundos": 35.48
+    },
+    {
+        "nombre_archivo": "bracelet",
+        "titulo": "Bracelet de Cuero y Piedras Negras",
+        "categoria_producto": "Bijouterie/Pulseras",
+        "estilo_producto": "Clásico",
+        "material_producto": "Lona",
+        "color_producto": "Negro",
+        "genero_producto": "Hombre",
+        "short_description": "Bracelet de cuero negro con cuentas de piedras negras y detalles dorados.",
+        "long_description": "Este elegante bracelete de cuero negro está compuesto por varias capas de cuero y cuenta con cuentas de piedras negras de diferentes tamaños. El diseño es clásico y se complementa con detalles dorados que añaden un toque de elegancia. Perfecto para hombres que valoran la sofisticación y la elegancia.",
+        "tags": [
+            "Cuero",
+            "Piedras Negras",
+            "Bracelet",
+            "Elegante",
+            "Clásico"
+        ],
+        "origen": "pulseras-hombre/combinaciones-unicas.jpg",
+        "tiempo_segundos": 153.75
+    },
+    {
+        "nombre_archivo": "bracelet",
+        "titulo": "Bracelet de Cuero con Dije de Infinito",
+        "categoria_producto": "Bijouterie/Dijes",
+        "estilo_producto": "Clásico",
+        "material_producto": "Aleación",
+        "color_producto": "Negro",
+        "genero_producto": "Hombre",
+        "short_description": "Bracelet de cuero negro con un dije de infinito en acero dorado.",
+        "long_description": "Este bracelete de cuero negro está diseñado con un dije de infinito en acero dorado, proporcionando un toque de elegancia y originalidad a cualquier look. El material de cuero de alta calidad asegura una durabilidad duradera, mientras que el dije de infinito añade un elemento de diseño único.",
+        "tags": [
+            "Bracelet",
+            "Cuero",
+            "Dije",
+            "Infinito",
+            "Elegante",
+            "Original"
+        ],
+        "origen": "pulseras-hombre/combinadas.jpg",
+        "tiempo_segundos": 123.78
+    },
+    {
+        "nombre_archivo": "BraceletNegro",
+        "titulo": "Bracelete de Cuero Negro",
+        "categoria_producto": "Bijouterie/Pulseras",
+        "estilo_producto": "Clásico",
+        "material_producto": "Lona",
+        "color_producto": "Negro",
+        "genero_producto": "Hombre",
+        "short_description": "Bracelete de cuero negro trenzado con estilo clásico.",
+        "long_description": "Este bracelete de cuero negro trenzado es una pieza de joyería clásica que combina elegancia y durabilidad. El material de alta calidad garantiza un uso duradero y duradero. El diseño minimalista y elegante lo hace perfecto para cualquier ocasión.",
+        "tags": [
+            "Cuero",
+            "Trenzado",
+            "Clásico",
+            "Elegante",
+            "Duradero"
+        ],
+        "origen": "pulseras-hombre/pulsera-cuero-sintetico-tejida-negra-anverso.jpg",
+        "tiempo_segundos": 194.16
+    },
+    {
+        "nombre_archivo": "bracelet.jpg",
+        "titulo": "Bracelet en cuir tressé",
+        "categoria_producto": "Bijouterie/Pulseras",
+        "estilo_producto": "Clásico",
+        "material_producto": "acero dorado (Dorado Filled)",
+        "color_producto": "marrón",
+        "genero_producto": "hombre",
+        "short_description": "Bracelet en cuir tressé avec un fini doré.",
+        "long_description": "Ce bracelet en cuir tressé est fabriqué en acier doré (Dorado Filled) pour une finition de luxe. Il est idéal pour un style classique et élégant.",
+        "tags": [
+            "cuir",
+            "tressé",
+            "acero doré",
+            "bracelet",
+            "classique"
+        ],
+        "origen": "pulseras-hombre/pulsera-cuero-trenzada-marron-y-tiras-ajustable-anverso.jpg",
+        "tiempo_segundos": 122.36
+    },
+    {
+        "nombre_archivo": "dije_acero_platino_2mm_10mm",
+        "titulo": "Dije Acero Plateado 2mm x 10mm",
+        "categoria_producto": "Bijouterie/Dijes",
+        "estilo_producto": "Clásico",
+        "material_producto": "Acero Plateado",
+        "color_producto": "Plateado",
+        "genero_producto": "Hombre",
+        "short_description": "Dije de acero plateado con acabado brillante.",
+        "long_description": "Este dije de acero plateado es un accesorio elegante y duradero para hombres. Con un diámetro de 2mm y una longitud de 10mm, se adapta perfectamente a cualquier ocasión. El acabado brillante y el material de alta calidad lo hacen un must-have para cualquier outfit.",
+        "tags": [
+            "acero plateado",
+            "dije",
+            "accesorio hombre",
+            "diseño clásico"
+        ],
+        "origen": "pulseras-hombre/pulsera-cuero-tres-tiras-marron-y-hebilla-plateada-anverso.jpg",
+        "tiempo_segundos": 125.28
+    },
+    {
+        "nombre_archivo": "fashion_bag",
+        "titulo": "Bolso de Mano de Lona Beige con Diseño de Letras",
+        "categoria_producto": "Carteras/Totes",
+        "estilo_producto": "Clásico",
+        "material_producto": "Lona",
+        "color_producto": "Beige",
+        "genero_producto": "Mujer",
+        "short_description": "Bolso de mano de lona beige con diseño de letras en la parte superior.",
+        "long_description": "Este bolso de mano de lona beige es perfecto para una apariencia clásica y elegante. El diseño de letras en la parte superior añade un toque de personalidad a este bolso de mano. El material lona es duradero y resistente, lo que lo hace ideal para llevar en el día a día. El color beige es una opción versátil que combina bien con una amplia gama de estilos y ocasiones.",
+        "tags": [
+            "bolso de mano",
+            "lona",
+            "beige",
+            "diseño de letras",
+            "cartera",
+            "tote",
+            "clásico",
+            "elegante"
+        ],
+        "origen": "totes/tote-beige.png",
+        "tiempo_segundos": 36.92
+    },
+    {
+        "nombre_archivo": "dije_blanco_blanco",
+        "titulo": "Dije de Acero Plateado",
+        "categoria_producto": "Bijouterie/Dijes",
+        "estilo_producto": "Clásico",
+        "material_producto": "Acero Plateado",
+        "color_producto": "Blanco",
+        "genero_producto": "Mujer",
+        "short_description": "Dije de acero plateado con acabado brillante.",
+        "long_description": "Este díje de acero plateado es una joyería clásica con un acabado brillante que aporta un toque de elegancia a cualquier atuendo. El material de alta calidad garantiza durabilidad y resistencia, lo que lo hace ideal para uso diario o ocasional.",
+        "tags": [
+            "acero plateado",
+            "dije",
+            "joyería",
+            "clásico"
+        ],
+        "origen": "dijes/dije-acero-bambu-plateado.jpeg",
+        "tiempo_segundos": 216.37
+    },
+    {
+        "nombre_archivo": "keychain_pink",
+        "titulo": "Llavero de Cuero Rosa con Dije Dorado",
+        "categoria_producto": "Bijouterie/Dijes",
+        "estilo_producto": "Clásico",
+        "material_producto": "Acero dorado (Dorado Filled)",
+        "color_producto": "Rosa",
+        "genero_producto": "Mujer",
+        "short_description": "Llavero de cuero rosa con un dije dorado en el centro.",
+        "long_description": "Este llavero de cuero rosa es una pieza de joyería clásica con un dije dorado en el centro. El material es acero dorado (Dorado Filled), lo que le confiere un brillo y durabilidad excepcionales. El diseño es elegante y adecuado para mujeres que buscan un accesorio sofisticado y versátil.",
+        "tags": [
+            "Llavero",
+            "Cuero",
+            "Dije Dorado",
+            "Clásico",
+            "Mujer"
+        ],
+        "origen": "llaveros/llavero-cuero-sintetico-recto-rosado.jpeg",
+        "tiempo_segundos": 257.78
+    },
+    {
+        "nombre_archivo": "llavero_turquesa_blanco",
+        "titulo": "Llavero Turquesa con Argolla Dorada",
+        "categoria_producto": "Bijouterie/Dijes",
+        "estilo_producto": "Clásico",
+        "material_producto": "Acero dorado (Dorado Filled)",
+        "color_producto": "Azul",
+        "genero_producto": "Mujer",
+        "short_description": "Llavero con argolla dorada y detalles en acero dorado, con un acabado brillante.",
+        "long_description": "Este llavero es una pieza de joyería de alta calidad, con un acabado brillante en acero dorado (Dorado Filled). La argolla dorada es de alta calidad y se puede usar para colgar otros accesorios. El material es de alta calidad y duradero, lo que lo hace ideal para uso diario.",
+        "tags": [
+            "Llavero",
+            "Turquesa",
+            "Acero dorado",
+            "Argolla dorada",
+            "Bijouterie",
+            "Dijes"
+        ],
+        "origen": "llaveros/llavero-cuero-sintetico-trenzado-turquesa.jpeg",
+        "tiempo_segundos": 228.2
+    },
+    {
+        "nombre_archivo": "llavero_pompon_beige",
+        "titulo": "Llavero Pompon Beige",
+        "categoria_producto": "Bijouterie/Dijes",
+        "estilo_producto": "Clásico",
+        "material_producto": "Aleación",
+        "color_producto": "Beige",
+        "genero_producto": "Mujer",
+        "short_description": "Llavero con pompon de pelo sintético en color beige.",
+        "long_description": "Este llavero es una joya de diseño elegante, con un pompon de pelo sintético en color beige. El material es una aleación de alta calidad, lo que le confiere un brillo duradero. El diseño clásico lo hace perfecto para complementar cualquier look, tanto para el día a día como para ocasiones más formales.",
+        "tags": [
+            "llavero",
+            "pompon",
+            "beige",
+            "dije",
+            "aleación",
+            "clásico"
+        ],
+        "origen": "llaveros/llavero-pompom-marron.jpeg",
+        "tiempo_segundos": 201.14
+    },
+    {
+        "nombre_archivo": "earring",
+        "titulo": "Earring",
+        "categoria_producto": "Bijouterie/Dijes",
+        "estilo_producto": "Clásico",
+        "material_producto": "aleacion",
+        "color_producto": "plateado",
+        "genero_producto": "mujer",
+        "short_description": "Earring with a teardrop shape and a shiny finish.",
+        "long_description": "This elegant earring features a teardrop shape with a shiny finish, making it perfect for any classic style. The silver-colored material adds a touch of sophistication to the overall design.",
+        "tags": [
+            "earring",
+            "teardrop",
+            "silver",
+            "classic"
+        ],
+        "origen": "aros/aro-lagrima-acero-plateado.jpeg",
+        "tiempo_segundos": 194.45
+    },
+    {
+        "nombre_archivo": "dije_oro_18k_earrings",
+        "titulo": "Dije Oro 18k Dorado",
+        "categoria_producto": "Bijouterie/Dijes",
+        "estilo_producto": "Clásico",
+        "material_producto": "Acero dorado (Dorado Filled)",
+        "color_producto": "Dorado",
+        "genero_producto": "Mujer",
+        "short_description": "Dije dorado de alta calidad con acabado mate.",
+        "long_description": "Este dije dorado de alta calidad es perfecto para cualquier ocasión. Fabricado en acero dorado (Dorado Filled), ofrece un acabado mate que le da un toque elegante y sofisticado. Ideal para combinar con joyas de diferentes estilos y colores.",
+        "tags": [
+            "dije",
+            "oro",
+            "dorado",
+            "acero dorado",
+            "diseño clásico",
+            "joyería",
+            "joyería de alta calidad"
+        ],
+        "origen": "aros/aro-rombo.jpeg",
+        "tiempo_segundos": 200.43
     }
 ]

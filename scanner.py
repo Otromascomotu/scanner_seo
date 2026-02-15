@@ -261,26 +261,30 @@ def analizar_carpeta():
         return
 
     archivos = []
-    for t in ["*.jpg", "*.png", "*.webp", "*.jpeg"]:
-        archivos.extend(glob.glob(os.path.join(CARPETA_IMAGENES, t)))
+    exts = ["*.jpg", "*.png", "*.webp", "*.jpeg"]
+    for t in exts:
+        archivos.extend(
+            glob.glob(os.path.join(CARPETA_IMAGENES, "**", t), recursive=True)
+        )
 
     if not archivos:
         console.print("[bold red]⚠️ No hay imágenes.[/]")
         return
 
     console.print(
-        f"[bold green]🚀 Scanner V11 (Clean Code + Gold Filled) con {MODELO_SEO}...[/]"
+        f"[bold green]🚀 Scanner V12 (Recursive + Batch Optimized) con {MODELO_SEO}...[/]"
     )
 
     resultados = []
     if os.path.exists(ARCHIVO_JSON):
-        # --- CORRECCIÓN 2: try/except expandido ---
         try:
             with open(ARCHIVO_JSON, "r", encoding="utf-8") as f:
                 resultados = json.load(f)
-        except Exception:  # --- CORRECCIÓN 3: Except explícito (PEP 8) ---
+        except Exception:
             pass
-        # ------------------------------------------
+
+    # Crear conjunto de imágenes ya procesadas para búsqueda rápida
+    procesados = {d.get("origen") for d in resultados}
 
     with Progress(
         SpinnerColumn("dots"),
@@ -292,8 +296,17 @@ def analizar_carpeta():
         task_total = progress.add_task("[green]Total", total=len(archivos))
 
         for imagen_path in archivos:
-            nombre = os.path.basename(imagen_path)
-            resultados = [d for d in resultados if d.get("origen") != nombre]
+            # Usar path relativo como identificador (ej: "dijes/foto1.jpg")
+            nombre = os.path.relpath(imagen_path, CARPETA_IMAGENES).replace("\\", "/")
+
+            # Skip logic: Si ya existe, saltar
+            if nombre in procesados:
+                # console.print(f"[dim]Salteando {nombre}...[/]") # Opcional: reducir ruido
+                progress.advance(task_total)
+                continue
+
+            # Si no existe, lo procesamos (Upsert ya no es necesario si saltamos,
+            # pero mantenemos la lógica de append)
 
             task_img = progress.add_task(f"Analizando {nombre}...", total=None)
             inicio = time.time()
