@@ -23,7 +23,7 @@ ARCHIVO_JSON = "productos_kanela.json"
 ARCHIVO_EXCEL = "catalogo_kanela.xlsx"
 ARCHIVO_HTML = "ver_productos.html"
 
-# --- PROMPT (V4) ---
+# --- PROMPT V4 ---
 SYSTEM_PROMPT = """
 ROL: Eres el Gerente de Catálogo de "Kanela by Anier" (Córdoba, Argentina).
 IDIOMA ESTRICTO: ESPAÑOL Rioplatense/Neutro. PROHIBIDO INGLÉS.
@@ -63,79 +63,33 @@ def limpiar_json(texto):
 
 
 def generar_reporte_html(datos):
-    """Genera HTML con Modo Oscuro y Etiquetas Explícitas"""
-
     css = """
     :root {
         --bg-color: #f4f4f9; --card-bg: #ffffff; --text-color: #333333;
         --border-color: #eeeeee; --badge-bg: #f8f9fa; --badge-text: #333;
-        --accent: #2c3e50; --shadow: rgba(0,0,0,0.05);
-        --key-color: #666; /* Color para el título de la etiqueta */
+        --accent: #2c3e50; --shadow: rgba(0,0,0,0.05); --key-color: #666;
     }
-    
     [data-theme="dark"] {
         --bg-color: #121212; --card-bg: #1e1e1e; --text-color: #e0e0e0;
         --border-color: #333; --badge-bg: #2c2c2c; --badge-text: #ccc;
-        --accent: #bb86fc; --shadow: rgba(0,0,0,0.5);
-        --key-color: #aaa;
+        --accent: #bb86fc; --shadow: rgba(0,0,0,0.5); --key-color: #aaa;
     }
-
     body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg-color); color: var(--text-color); padding: 20px; transition: 0.3s; }
     h1 { text-align: center; color: var(--accent); }
-    
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 20px; }
-    
-    .card { 
-        background: var(--card-bg); border-radius: 12px; 
-        box-shadow: 0 4px 6px var(--shadow); display: flex; 
-        overflow: hidden; border: 1px solid var(--border-color); 
-    }
-    
-    .img-box { 
-        width: 160px; padding: 10px; display: flex; flex-direction: column; 
-        align-items: center; justify-content: center; background: var(--card-bg); 
-        border-right: 1px solid var(--border-color);
-    }
-    
+    .card { background: var(--card-bg); border-radius: 12px; box-shadow: 0 4px 6px var(--shadow); display: flex; overflow: hidden; border: 1px solid var(--border-color); }
+    .img-box { width: 160px; padding: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--card-bg); border-right: 1px solid var(--border-color); }
     img { width: 150px; height: 150px; object-fit: contain; transition: 0.3s; }
     [data-theme="dark"] img { filter: brightness(0.85) contrast(1.1); }
-
     .timer { font-size: 0.8rem; margin-top: 5px; opacity: 0.7; }
-    
     .info { padding: 15px; flex: 1; }
     h2 { font-size: 1.1rem; margin: 0 0 15px 0; color: var(--text-color); line-height: 1.2; }
-    
-    /* BADGES / ETIQUETAS */
-    .specs-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr; /* Dos columnas */
-        gap: 8px;
-        margin-bottom: 15px;
-    }
-    
-    .spec-item {
-        font-size: 0.8rem;
-        padding: 4px 8px;
-        border-radius: 6px;
-        background: var(--badge-bg);
-        border: 1px solid var(--border-color);
-        color: var(--badge-text);
-        display: flex;
-        align-items: center;
-    }
-    
+    .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
+    .spec-item { font-size: 0.8rem; padding: 4px 8px; border-radius: 6px; background: var(--badge-bg); border: 1px solid var(--border-color); color: var(--badge-text); display: flex; align-items: center; }
     .spec-key { font-weight: bold; color: var(--key-color); margin-right: 5px; }
-    
     .desc { font-size: 0.85rem; opacity: 0.9; border-top: 1px solid var(--border-color); padding-top: 10px; }
     details { margin-top: 5px; cursor: pointer; color: var(--accent); }
-    
-    .theme-toggle {
-        position: fixed; top: 20px; right: 20px;
-        background: var(--card-bg); border: 1px solid var(--border-color);
-        color: var(--text-color); padding: 10px 15px; border-radius: 30px;
-        cursor: pointer; box-shadow: 0 4px 10px var(--shadow);
-        font-size: 1.2rem; z-index: 1000;
-    }
+    .theme-toggle { position: fixed; top: 20px; right: 20px; background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 10px 15px; border-radius: 30px; cursor: pointer; box-shadow: 0 4px 10px var(--shadow); font-size: 1.2rem; z-index: 1000; }
     """
 
     js = """
@@ -144,34 +98,24 @@ def generar_reporte_html(datos):
         const currentTheme = localStorage.getItem('theme');
         if (currentTheme) body.setAttribute('data-theme', currentTheme);
         updateIcon(currentTheme || 'light');
-
         function toggleTheme() {
             const newTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
             body.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
             updateIcon(newTheme);
         }
-        function updateIcon(theme) {
-            document.getElementById('theme-toggle').innerText = theme === 'dark' ? '☀️ Luz' : '🌙 Oscuro';
-        }
+        function updateIcon(theme) { document.getElementById('theme-toggle').innerText = theme === 'dark' ? '☀️ Luz' : '🌙 Oscuro'; }
     </script>
     """
-
-    html = f"""<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Kanela AI V7</title><style>{css}</style></head><body><button id="theme-toggle" class="theme-toggle" onclick="toggleTheme()">🌙</button><h1>💎 Catálogo Visual Kanela V7</h1><div class="grid">"""
+    html = f"""<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Kanela AI V8</title><style>{css}</style></head><body><button id="theme-toggle" class="theme-toggle" onclick="toggleTheme()">🌙</button><h1>💎 Catálogo Visual Kanela V8 (Auto-Update)</h1><div class="grid">"""
 
     for p in datos:
         ruta = f"./imagenes_a_procesar/{p.get('origen', '')}"
-
-        # AQUÍ ESTÁ LA CORRECCIÓN: Labels explícitos y Género incluido
         html += f"""
         <div class="card">
-            <div class="img-box">
-                <img src="{ruta}" onerror="this.src='https://placehold.co/150?text=Error'">
-                <span class="timer">⏱️ {p.get("tiempo_segundos", 0)}s</span>
-            </div>
+            <div class="img-box"><img src="{ruta}" onerror="this.src='https://placehold.co/150?text=Error'"><span class="timer">⏱️ {p.get("tiempo_segundos", 0)}s</span></div>
             <div class="info">
                 <h2>{p.get("titulo", "Error")}</h2>
-                
                 <div class="specs-grid">
                     <div class="spec-item"><span class="spec-key">📂 Categoría:</span> {p.get("categoria_producto")}</div>
                     <div class="spec-item"><span class="spec-key">✨ Estilo:</span> {p.get("estilo_producto")}</div>
@@ -179,14 +123,9 @@ def generar_reporte_html(datos):
                     <div class="spec-item"><span class="spec-key">🎨 Color:</span> {p.get("color_producto")}</div>
                     <div class="spec-item"><span class="spec-key">👤 Género:</span> {p.get("genero_producto")}</div>
                 </div>
-
-                <div class="desc">
-                    {p.get("short_description", "")[:120]}...
-                    <details><summary>Ver Completo</summary><p>{p.get("long_description")}</p></details>
-                </div>
+                <div class="desc">{p.get("short_description", "")[:120]}...<details><summary>Ver Completo</summary><p>{p.get("long_description")}</p></details></div>
             </div>
         </div>"""
-
     html += f"</div>{js}</body></html>"
     with open(ARCHIVO_HTML, "w", encoding="utf-8") as f:
         f.write(html)
@@ -229,14 +168,14 @@ def analizar_carpeta():
         return
 
     console.print(
-        f"[bold green]🚀 Iniciando Scanner V7 (Fixed UI) con {MODELO_SEO}...[/]"
+        f"[bold green]🚀 Iniciando Scanner V8 (Modo Sobreescritura) con {MODELO_SEO}...[/]"
     )
     resultados = []
     if os.path.exists(ARCHIVO_JSON):
         try:
             with open(ARCHIVO_JSON, "r", encoding="utf-8") as f:
                 resultados = json.load(f)
-        except:
+        except Exception:
             pass
 
     with Progress(
@@ -250,9 +189,11 @@ def analizar_carpeta():
         task_total = progress.add_task("[green]Total", total=len(archivos))
         for imagen_path in archivos:
             nombre = os.path.basename(imagen_path)
-            if any(d.get("origen") == nombre for d in resultados):
-                progress.advance(task_total)
-                continue
+
+            # --- CAMBIO V8: Eliminamos el 'continue' y borramos la entrada vieja ---
+            # Si la imagen ya existe en los resultados, la quitamos para procesarla de nuevo
+            resultados = [d for d in resultados if d.get("origen") != nombre]
+            # -----------------------------------------------------------------------
 
             task_img = progress.add_task(f"Analizando {nombre}...", total=None)
             inicio = time.time()
@@ -274,8 +215,11 @@ def analizar_carpeta():
                 data = json.loads(content)
                 data["origen"] = nombre
                 data["tiempo_segundos"] = duracion
+
+                # Agregamos la nueva versión
                 resultados.append(data)
                 guardar_resultados(resultados)
+
             except Exception as e:
                 progress.remove_task(task_img)
                 console.print(f"[red]Error: {e}[/]")
