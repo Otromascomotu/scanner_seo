@@ -1,72 +1,67 @@
-
-    <!DOCTYPE html>
-    <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Kanela AI QA - V6</title>
-        <style>
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Kanela AI V7</title><style>
     :root {
-        --bg-color: #f4f4f9;
-        --card-bg: #ffffff;
-        --text-color: #333333;
-        --border-color: #eeeeee;
-        --badge-bg: #eef;
-        --badge-text: #333;
-        --accent: #2c3e50;
-        --shadow: rgba(0,0,0,0.05);
+        --bg-color: #f4f4f9; --card-bg: #ffffff; --text-color: #333333;
+        --border-color: #eeeeee; --badge-bg: #f8f9fa; --badge-text: #333;
+        --accent: #2c3e50; --shadow: rgba(0,0,0,0.05);
+        --key-color: #666; /* Color para el título de la etiqueta */
     }
     
     [data-theme="dark"] {
-        --bg-color: #121212;
-        --card-bg: #1e1e1e;
-        --text-color: #e0e0e0;
-        --border-color: #333;
-        --badge-bg: #333;
-        --badge-text: #ccc;
-        --accent: #bb86fc;
-        --shadow: rgba(0,0,0,0.5);
+        --bg-color: #121212; --card-bg: #1e1e1e; --text-color: #e0e0e0;
+        --border-color: #333; --badge-bg: #2c2c2c; --badge-text: #ccc;
+        --accent: #bb86fc; --shadow: rgba(0,0,0,0.5);
+        --key-color: #aaa;
     }
 
-    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg-color); color: var(--text-color); padding: 20px; transition: background 0.3s, color 0.3s; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg-color); color: var(--text-color); padding: 20px; transition: 0.3s; }
     h1 { text-align: center; color: var(--accent); }
     
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 20px; }
     
     .card { 
         background: var(--card-bg); border-radius: 12px; 
         box-shadow: 0 4px 6px var(--shadow); display: flex; 
         overflow: hidden; border: 1px solid var(--border-color); 
-        transition: transform 0.2s;
     }
-    .card:hover { transform: translateY(-2px); }
     
     .img-box { 
-        width: 150px; padding: 10px; display: flex; flex-direction: column; 
-        align-items: center; justify-content: center; 
+        width: 160px; padding: 10px; display: flex; flex-direction: column; 
+        align-items: center; justify-content: center; background: var(--card-bg); 
         border-right: 1px solid var(--border-color);
-        background: var(--card-bg);
     }
     
-    img { width: 140px; height: 140px; object-fit: contain; }
-    /* Baja el brillo de las fotos en modo oscuro para que no encandilen */
-    [data-theme="dark"] img { filter: brightness(0.9); }
+    img { width: 150px; height: 150px; object-fit: contain; transition: 0.3s; }
+    [data-theme="dark"] img { filter: brightness(0.85) contrast(1.1); }
 
     .timer { font-size: 0.8rem; margin-top: 5px; opacity: 0.7; }
     
     .info { padding: 15px; flex: 1; }
-    h2 { font-size: 1rem; margin: 0 0 10px 0; color: var(--text-color); }
+    h2 { font-size: 1.1rem; margin: 0 0 15px 0; color: var(--text-color); line-height: 1.2; }
     
-    .badges { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
-    .badge { 
-        font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; 
-        background: var(--badge-bg); color: var(--badge-text); border: 1px solid var(--border-color); 
+    /* BADGES / ETIQUETAS */
+    .specs-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Dos columnas */
+        gap: 8px;
+        margin-bottom: 15px;
     }
+    
+    .spec-item {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+        border-radius: 6px;
+        background: var(--badge-bg);
+        border: 1px solid var(--border-color);
+        color: var(--badge-text);
+        display: flex;
+        align-items: center;
+    }
+    
+    .spec-key { font-weight: bold; color: var(--key-color); margin-right: 5px; }
     
     .desc { font-size: 0.85rem; opacity: 0.9; border-top: 1px solid var(--border-color); padding-top: 10px; }
     details { margin-top: 5px; cursor: pointer; color: var(--accent); }
     
-    /* Botón Flotante */
     .theme-toggle {
         position: fixed; top: 20px; right: 20px;
         background: var(--card-bg); border: 1px solid var(--border-color);
@@ -74,58 +69,43 @@
         cursor: pointer; box-shadow: 0 4px 10px var(--shadow);
         font-size: 1.2rem; z-index: 1000;
     }
-    </style>
-    </head>
-    <body>
-        <button id="theme-toggle" class="theme-toggle" onclick="toggleTheme()">🌙 Modo Oscuro</button>
-        <h1>💎 Catálogo Visual Kanela V6</h1>
-        <div class="grid">
-    
+    </style></head><body><button id="theme-toggle" class="theme-toggle" onclick="toggleTheme()">🌙</button><h1>💎 Catálogo Visual Kanela V7</h1><div class="grid">
         <div class="card">
             <div class="img-box">
                 <img src="./imagenes_a_procesar/dije-crisantemo-01.jpg" onerror="this.src='https://placehold.co/150?text=Error'">
-                <span class="timer">⏱️ 425.52s</span>
+                <span class="timer">⏱️ 424.13s</span>
             </div>
             <div class="info">
-                <h2>Dije Flor Rosa</h2>
-                <div class="badges">
-                    <span class="badge">Bijouterie/Dijes</span>
-                    <span class="badge">Clásico</span>
-                    <span class="badge">Aleación</span>
-                    <span class="badge">Rosa</span>
+                <h2>Daisy Charm</h2>
+                
+                <div class="specs-grid">
+                    <div class="spec-item"><span class="spec-key">📂 Categoría:</span> Bijouterie/Dijes</div>
+                    <div class="spec-item"><span class="spec-key">✨ Estilo:</span> Clásico</div>
+                    <div class="spec-item"><span class="spec-key">🛠️ Material:</span> aleacion</div>
+                    <div class="spec-item"><span class="spec-key">🎨 Color:</span> rosa</div>
+                    <div class="spec-item"><span class="spec-key">👤 Género:</span> mujer</div>
                 </div>
+
                 <div class="desc">
-                    Dije en forma de flor con detalles dorados y un color rosa suave....
-                    <details><summary>Ver Completo</summary><p>Este delicado dije en forma de flor es perfecto para cualquier ocasión. Con detalles dorados en el centro y los pétalos, este dije se adapta a cualquier estilo de joyería. El color rosa suave añade un toque de elegancia y frescura a tu look.</p></details>
+                    Charm de flores con diseño de margarita en color rosa con detalles dorados....
+                    <details><summary>Ver Completo</summary><p>Este charm de flores es perfecto para joyería personalizada. Con su diseño detallado y color rosa suave, se adapta a una variedad de estilos y ocasiones. El dorado añade un toque de elegancia y sofisticación.</p></details>
                 </div>
             </div>
         </div></div>
     <script>
-        const toggleBtn = document.getElementById('theme-toggle');
         const body = document.body;
-        
-        // Cargar preferencia guardada
         const currentTheme = localStorage.getItem('theme');
-        if (currentTheme) {
-            body.setAttribute('data-theme', currentTheme);
-            updateIcon(currentTheme);
-        }
+        if (currentTheme) body.setAttribute('data-theme', currentTheme);
+        updateIcon(currentTheme || 'light');
 
         function toggleTheme() {
-            if (body.getAttribute('data-theme') === 'dark') {
-                body.setAttribute('data-theme', 'light');
-                localStorage.setItem('theme', 'light');
-                updateIcon('light');
-            } else {
-                body.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-                updateIcon('dark');
-            }
+            const newTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
         }
-        
         function updateIcon(theme) {
-            const btn = document.getElementById('theme-toggle');
-            btn.innerHTML = theme === 'dark' ? '☀️ Modo Luz' : '🌙 Modo Oscuro';
+            document.getElementById('theme-toggle').innerText = theme === 'dark' ? '☀️ Luz' : '🌙 Oscuro';
         }
     </script>
     </body></html>
