@@ -1,23 +1,23 @@
 [
     {
-        "nombre_archivo": "daisy_charm.json",
-        "titulo": "Daisy Charm",
+        "nombre_archivo": "dije_flor_pink",
+        "titulo": "Dije Flor Rosa",
         "categoria_producto": "Bijouterie/Dijes",
         "estilo_producto": "Clásico",
-        "material_producto": "aleacion",
-        "color_producto": "rosa",
-        "genero_producto": "mujer",
-        "short_description": "Charm de flores con diseño de margarita en color rosa con detalles dorados.",
-        "long_description": "Este charm de flores es perfecto para joyería personalizada. Con su diseño detallado y color rosa suave, se adapta a una variedad de estilos y ocasiones. El dorado añade un toque de elegancia y sofisticación.",
+        "material_producto": "Aleación",
+        "color_producto": "Rosa",
+        "genero_producto": "Mujer",
+        "short_description": "Dije en forma de flor con detalles dorados en el centro y en los bordes.",
+        "long_description": "Este adorable dije en forma de flor es perfecto para cualquier joyería. Con detalles dorados en el centro y en los bordes, este dije añade un toque de elegancia a cualquier collar o pulsera. El material aleación asegura un acabado duradero y resistente.",
         "tags": [
-            "joyería",
-            "daisy",
-            "charm",
+            "dije",
             "flor",
             "rosa",
+            "aleación",
+            "joyería",
             "dorado"
         ],
         "origen": "dije-crisantemo-01.jpg",
-        "tiempo_segundos": 424.13
+        "tiempo_segundos": 22.03
     }
 ]

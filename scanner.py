@@ -23,22 +23,23 @@ ARCHIVO_JSON = "productos_kanela.json"
 ARCHIVO_EXCEL = "catalogo_kanela.xlsx"
 ARCHIVO_HTML = "ver_productos.html"
 
-# --- PROMPT V4 ---
+# --- PROMPT V5 (GOLD FILLED UPDATE) ---
 SYSTEM_PROMPT = """
-ROL: Eres el Gerente de Catálogo de "Kanela by Anier" (Córdoba, Argentina).
-IDIOMA ESTRICTO: ESPAÑOL Rioplatense/Neutro. PROHIBIDO INGLÉS.
-
-TU MISIÓN: Analizar la imagen y generar JSON estricto.
+ROL: Gerente de Catálogo de "Kanela by Anier" (Córdoba, Argentina).
+IDIOMA: ESPAÑOL NEUTRO. PROHIBIDO "CHARM". USAR "DIJE".
 
 REGLAS VISUALES:
-1. Dije vs Colgante: Pequeño con argolla = "Bijouterie/Dijes". Grande/con cadena = "Colgante".
-2. Material: Brillo fantasía -> "aleacion". Gris pulido -> "acero plateado". Dorado -> "acero dorado" (o aleacion).
-3. Si es "aleacion", NUNCA pongas "Acero" en el título.
+1. Dije vs Colgante: Pequeño c/argolla = "Bijouterie/Dijes". Grande/cadena = "Colgante".
+2. Material: 
+   - Brillo fantasía = "aleacion". 
+   - Gris = "acero plateado". 
+   - Dorado = "acero dorado (Gold Filled)" (o aleacion si se ve de baja calidad).
+3. Si es "aleacion", NO usar "Acero" en título.
 
 LISTAS CERRADAS:
 A. CATEGORÍA: Bijouterie/Dijes, Bijouterie/Aros/Argollas, Bijouterie/Aros/Colgantes, Bijouterie/Aros/Ear Cuffs, Bijouterie/Pulseras, Bijouterie/Tobilleras, Bijouterie/Cadenas, Bijouterie/Collares Diseño, Bijouterie/Gargantillas, Bijouterie/Conjuntos, Bijouterie/Piercings, Carteras/Totes, Carteras/Bandoleras, Carteras/Sobres, Accesorios/Llaveros
 B. ESTILO: Clasico, Punk, Gotico
-C. MATERIAL: aleacion, acero dorado, acero plateado, lona, ecocuero
+C. MATERIAL: aleacion, acero dorado (Gold Filled), acero plateado, lona, ecocuero
 D. COLOR: rosa, rojo, blanco, beige, verde, marron, bordo, negro, azul, amarillo, dorado, plateado, multicolor
 E. GÉNERO: mujer, hombre, unisex
 
@@ -57,39 +58,96 @@ client = Client(host=OLLAMA_HOST)
 
 
 def limpiar_json(texto):
+    """Limpia bloques markdown del JSON"""
     texto = re.sub(r"```json\s*", "", texto)
     texto = re.sub(r"```\s*$", "", texto)
     return texto.strip()
 
 
+def sanitarizar_texto(texto):
+    """Fuerza bruta para eliminar palabras prohibidas y corregir formatos"""
+    reemplazos = {
+        "Charm": "Dije",
+        "charm": "dije",
+        "Charms": "Dijes",
+        "charms": "dijes",
+        "Gold": "Dorado",
+        "gold": "dorado",
+        "Goldfilled": "Gold Filled",  # Corregir si la IA lo escribe junto
+        "Gold-filled": "Gold Filled",
+    }
+    for old, new in reemplazos.items():
+        texto = texto.replace(old, new)
+    return texto
+
+
 def generar_reporte_html(datos):
     css = """
     :root {
-        --bg-color: #f4f4f9; --card-bg: #ffffff; --text-color: #333333;
-        --border-color: #eeeeee; --badge-bg: #f8f9fa; --badge-text: #333;
-        --accent: #2c3e50; --shadow: rgba(0,0,0,0.05); --key-color: #666;
+        --bg: #f4f6f8; --card-bg: #fff; --text: #2d3748; --text-light: #718096;
+        --border: #e2e8f0; --accent: #3182ce; --badge-bg: #edf2f7;
+        --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
     }
     [data-theme="dark"] {
-        --bg-color: #121212; --card-bg: #1e1e1e; --text-color: #e0e0e0;
-        --border-color: #333; --badge-bg: #2c2c2c; --badge-text: #ccc;
-        --accent: #bb86fc; --shadow: rgba(0,0,0,0.5); --key-color: #aaa;
+        --bg: #1a202c; --card-bg: #2d3748; --text: #f7fafc; --text-light: #a0aec0;
+        --border: #4a5568; --accent: #63b3ed; --badge-bg: #4a5568;
+        --shadow: 0 4px 6px -1px rgba(0,0,0,0.5);
     }
-    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg-color); color: var(--text-color); padding: 20px; transition: 0.3s; }
-    h1 { text-align: center; color: var(--accent); }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 20px; }
-    .card { background: var(--card-bg); border-radius: 12px; box-shadow: 0 4px 6px var(--shadow); display: flex; overflow: hidden; border: 1px solid var(--border-color); }
-    .img-box { width: 160px; padding: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--card-bg); border-right: 1px solid var(--border-color); }
-    img { width: 150px; height: 150px; object-fit: contain; transition: 0.3s; }
-    [data-theme="dark"] img { filter: brightness(0.85) contrast(1.1); }
-    .timer { font-size: 0.8rem; margin-top: 5px; opacity: 0.7; }
-    .info { padding: 15px; flex: 1; }
-    h2 { font-size: 1.1rem; margin: 0 0 15px 0; color: var(--text-color); line-height: 1.2; }
-    .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
-    .spec-item { font-size: 0.8rem; padding: 4px 8px; border-radius: 6px; background: var(--badge-bg); border: 1px solid var(--border-color); color: var(--badge-text); display: flex; align-items: center; }
-    .spec-key { font-weight: bold; color: var(--key-color); margin-right: 5px; }
-    .desc { font-size: 0.85rem; opacity: 0.9; border-top: 1px solid var(--border-color); padding-top: 10px; }
-    details { margin-top: 5px; cursor: pointer; color: var(--accent); }
-    .theme-toggle { position: fixed; top: 20px; right: 20px; background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 10px 15px; border-radius: 30px; cursor: pointer; box-shadow: 0 4px 10px var(--shadow); font-size: 1.2rem; z-index: 1000; }
+    
+    body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); padding: 0; margin: 0; transition: 0.3s; }
+    
+    header {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 20px 40px; background: var(--card-bg); border-bottom: 1px solid var(--border);
+        box-shadow: var(--shadow); position: sticky; top: 0; z-index: 100;
+    }
+    h1 { margin: 0; font-size: 1.5rem; color: var(--accent); }
+    
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(500px, 1fr)); gap: 30px; padding: 30px; max-width: 1600px; margin: 0 auto; }
+    
+    .card { 
+        background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border);
+        box-shadow: var(--shadow); display: grid; grid-template-columns: 180px 1fr; overflow: hidden;
+    }
+    
+    .img-col { 
+        padding: 20px; background: var(--badge-bg); display: flex; flex-direction: column; 
+        align-items: center; justify-content: center; border-right: 1px solid var(--border);
+    }
+    img { width: 140px; height: 140px; object-fit: contain; }
+    
+    .info-col { padding: 25px; display: flex; flex-direction: column; }
+    h2 { margin: 0 0 15px; font-size: 1.2rem; line-height: 1.3; }
+    
+    .specs { 
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; 
+    }
+    .badge {
+        font-size: 0.8rem; padding: 6px 10px; background: var(--bg); 
+        border: 1px solid var(--border); border-radius: 6px; 
+        display: flex; flex-direction: column;
+    }
+    .b-label { font-size: 0.7rem; color: var(--text-light); font-weight: 700; text-transform: uppercase; margin-bottom: 2px; }
+    .b-val { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .desc { font-size: 0.9rem; color: var(--text-light); line-height: 1.5; }
+    
+    button.toggle {
+        background: var(--bg); border: 1px solid var(--border); padding: 8px 16px; 
+        border-radius: 20px; cursor: pointer; color: var(--text); font-weight: 600;
+    }
+    button.copy-btn {
+        background: var(--accent); color: white; border: none; padding: 5px 10px; 
+        border-radius: 4px; cursor: pointer; font-size: 0.8rem; margin-top: 5px;
+    }
+    button.copy-btn:active { transform: scale(0.95); }
+
+    @media (max-width: 768px) {
+        .grid { grid-template-columns: 1fr; padding: 15px; }
+        .card { grid-template-columns: 1fr; }
+        .img-col { border-right: none; border-bottom: 1px solid var(--border); flex-direction: row; justify-content: space-between; }
+        .specs { grid-template-columns: repeat(2, 1fr); }
+    }
     """
 
     js = """
@@ -97,35 +155,71 @@ def generar_reporte_html(datos):
         const body = document.body;
         const currentTheme = localStorage.getItem('theme');
         if (currentTheme) body.setAttribute('data-theme', currentTheme);
-        updateIcon(currentTheme || 'light');
+        updateText(currentTheme || 'light');
+
         function toggleTheme() {
             const newTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
             body.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
-            updateIcon(newTheme);
+            updateText(newTheme);
         }
-        function updateIcon(theme) { document.getElementById('theme-toggle').innerText = theme === 'dark' ? '☀️ Luz' : '🌙 Oscuro'; }
+        function updateText(theme) {
+            document.getElementById('toggle-btn').innerText = theme === 'dark' ? '☀️ Modo Luz' : '🌙 Modo Oscuro';
+        }
+        function copyToClipboard(textId) {
+            const text = document.getElementById(textId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('¡HTML copiado al portapapeles!');
+            });
+        }
     </script>
     """
-    html = f"""<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Kanela AI V8</title><style>{css}</style></head><body><button id="theme-toggle" class="theme-toggle" onclick="toggleTheme()">🌙</button><h1>💎 Catálogo Visual Kanela V8 (Auto-Update)</h1><div class="grid">"""
 
-    for p in datos:
+    html = f"""
+    <!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Kanela V11</title><style>{css}</style></head>
+    <body>
+        <header>
+            <h1>💎 Kanela AI V11</h1>
+            <button id="toggle-btn" class="toggle" onclick="toggleTheme()">🌙 Modo Oscuro</button>
+        </header>
+        <div class="grid">
+    """
+
+    for i, p in enumerate(datos):
         ruta = f"./imagenes_a_procesar/{p.get('origen', '')}"
+        desc_id = f"desc-{i}"
+
         html += f"""
         <div class="card">
-            <div class="img-box"><img src="{ruta}" onerror="this.src='https://placehold.co/150?text=Error'"><span class="timer">⏱️ {p.get("tiempo_segundos", 0)}s</span></div>
-            <div class="info">
+            <div class="img-col">
+                <img src="{ruta}" onerror="this.src='https://placehold.co/150'">
+                <div style="margin-top:10px; font-size:0.8rem; font-weight:bold;">⏱️ {p.get("tiempo_segundos", 0)}s</div>
+            </div>
+            <div class="info-col">
                 <h2>{p.get("titulo", "Error")}</h2>
-                <div class="specs-grid">
-                    <div class="spec-item"><span class="spec-key">📂 Categoría:</span> {p.get("categoria_producto")}</div>
-                    <div class="spec-item"><span class="spec-key">✨ Estilo:</span> {p.get("estilo_producto")}</div>
-                    <div class="spec-item"><span class="spec-key">🛠️ Material:</span> {p.get("material_producto")}</div>
-                    <div class="spec-item"><span class="spec-key">🎨 Color:</span> {p.get("color_producto")}</div>
-                    <div class="spec-item"><span class="spec-key">👤 Género:</span> {p.get("genero_producto")}</div>
+                
+                <div class="specs">
+                    <div class="badge"><span class="b-label">Categoría</span><span class="b-val" title="{p.get("categoria_producto")}">{p.get("categoria_producto")}</span></div>
+                    <div class="badge"><span class="b-label">Estilo</span><span class="b-val">{p.get("estilo_producto")}</span></div>
+                    <div class="badge"><span class="b-label">Material</span><span class="b-val" title="{p.get("material_producto")}">{p.get("material_producto")}</span></div>
+                    <div class="badge"><span class="b-label">Color</span><span class="b-val">{p.get("color_producto")}</span></div>
+                    <div class="badge"><span class="b-label">Género</span><span class="b-val">{p.get("genero_producto")}</span></div>
                 </div>
-                <div class="desc">{p.get("short_description", "")[:120]}...<details><summary>Ver Completo</summary><p>{p.get("long_description")}</p></details></div>
+
+                <div class="desc">
+                    {p.get("short_description", "")[:100]}...
+                    <details>
+                        <summary>Ver y Copiar HTML</summary>
+                        <div style="background:var(--bg); padding:10px; border-radius:6px; margin-top:10px; border:1px solid var(--border);">
+                            <strong style="font-size:0.8rem;">Descripción Larga (HTML):</strong>
+                            <div id="{desc_id}" style="font-family:monospace; font-size:0.75rem; white-space:pre-wrap; margin:5px 0;">{p.get("long_description")}</div>
+                            <button class="copy-btn" onclick="copyToClipboard('{desc_id}')">📋 Copiar HTML</button>
+                        </div>
+                    </details>
+                </div>
             </div>
         </div>"""
+
     html += f"</div>{js}</body></html>"
     with open(ARCHIVO_HTML, "w", encoding="utf-8") as f:
         f.write(html)
@@ -134,6 +228,7 @@ def generar_reporte_html(datos):
 def guardar_resultados(datos):
     with open(ARCHIVO_JSON, "w", encoding="utf-8") as f:
         json.dump(datos, f, indent=4, ensure_ascii=False)
+
     df = pd.DataFrame(datos)
     cols = [
         "origen",
@@ -148,9 +243,13 @@ def guardar_resultados(datos):
         "short_description",
         "long_description",
     ]
+
+    # --- CORRECCIÓN 1: Bucle for expandido ---
     for c in cols:
         if c not in df.columns:
             df[c] = ""
+    # -----------------------------------------
+
     df = df[cols + [c for c in df.columns if c not in cols]]
     df.to_excel(ARCHIVO_EXCEL, index=False)
     generar_reporte_html(datos)
@@ -160,40 +259,41 @@ def analizar_carpeta():
     if not os.path.exists(CARPETA_IMAGENES):
         os.makedirs(CARPETA_IMAGENES)
         return
+
     archivos = []
     for t in ["*.jpg", "*.png", "*.webp", "*.jpeg"]:
         archivos.extend(glob.glob(os.path.join(CARPETA_IMAGENES, t)))
+
     if not archivos:
         console.print("[bold red]⚠️ No hay imágenes.[/]")
         return
 
     console.print(
-        f"[bold green]🚀 Iniciando Scanner V8 (Modo Sobreescritura) con {MODELO_SEO}...[/]"
+        f"[bold green]🚀 Scanner V11 (Clean Code + Gold Filled) con {MODELO_SEO}...[/]"
     )
+
     resultados = []
     if os.path.exists(ARCHIVO_JSON):
+        # --- CORRECCIÓN 2: try/except expandido ---
         try:
             with open(ARCHIVO_JSON, "r", encoding="utf-8") as f:
                 resultados = json.load(f)
-        except Exception:
+        except Exception:  # --- CORRECCIÓN 3: Except explícito (PEP 8) ---
             pass
+        # ------------------------------------------
 
     with Progress(
         SpinnerColumn("dots"),
         TextColumn("[bold blue]{task.description}"),
         BarColumn(),
-        TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
         TimeElapsedColumn(),
         console=console,
     ) as progress:
         task_total = progress.add_task("[green]Total", total=len(archivos))
+
         for imagen_path in archivos:
             nombre = os.path.basename(imagen_path)
-
-            # --- CAMBIO V8: Eliminamos el 'continue' y borramos la entrada vieja ---
-            # Si la imagen ya existe en los resultados, la quitamos para procesarla de nuevo
             resultados = [d for d in resultados if d.get("origen") != nombre]
-            # -----------------------------------------------------------------------
 
             task_img = progress.add_task(f"Analizando {nombre}...", total=None)
             inicio = time.time()
@@ -209,21 +309,26 @@ def analizar_carpeta():
                     ],
                     options={"temperature": 0.1, "num_ctx": 4096},
                 )
+
                 duracion = round(time.time() - inicio, 2)
                 progress.remove_task(task_img)
+
                 content = limpiar_json(response["message"]["content"])
-                data = json.loads(content)
+                content_sanitizado = sanitarizar_texto(content)
+
+                data = json.loads(content_sanitizado)
                 data["origen"] = nombre
                 data["tiempo_segundos"] = duracion
 
-                # Agregamos la nueva versión
                 resultados.append(data)
                 guardar_resultados(resultados)
 
             except Exception as e:
                 progress.remove_task(task_img)
                 console.print(f"[red]Error: {e}[/]")
+
             progress.advance(task_total)
+
     console.print(f"\n[bold green]🏁 Listo: {ARCHIVO_HTML}[/]")
 
 

@@ -1,94 +1,104 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Kanela AI V7</title><style>
-    :root {
-        --bg-color: #f4f4f9; --card-bg: #ffffff; --text-color: #333333;
-        --border-color: #eeeeee; --badge-bg: #f8f9fa; --badge-text: #333;
-        --accent: #2c3e50; --shadow: rgba(0,0,0,0.05);
-        --key-color: #666; /* Color para el título de la etiqueta */
-    }
-    
-    [data-theme="dark"] {
-        --bg-color: #121212; --card-bg: #1e1e1e; --text-color: #e0e0e0;
-        --border-color: #333; --badge-bg: #2c2c2c; --badge-text: #ccc;
-        --accent: #bb86fc; --shadow: rgba(0,0,0,0.5);
-        --key-color: #aaa;
-    }
 
-    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg-color); color: var(--text-color); padding: 20px; transition: 0.3s; }
-    h1 { text-align: center; color: var(--accent); }
+    <!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Kanela V11</title><style>
+    :root {
+        --bg: #f4f6f8; --card-bg: #fff; --text: #2d3748; --text-light: #718096;
+        --border: #e2e8f0; --accent: #3182ce; --badge-bg: #edf2f7;
+        --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    }
+    [data-theme="dark"] {
+        --bg: #1a202c; --card-bg: #2d3748; --text: #f7fafc; --text-light: #a0aec0;
+        --border: #4a5568; --accent: #63b3ed; --badge-bg: #4a5568;
+        --shadow: 0 4px 6px -1px rgba(0,0,0,0.5);
+    }
     
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 20px; }
+    body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); padding: 0; margin: 0; transition: 0.3s; }
+    
+    header {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 20px 40px; background: var(--card-bg); border-bottom: 1px solid var(--border);
+        box-shadow: var(--shadow); position: sticky; top: 0; z-index: 100;
+    }
+    h1 { margin: 0; font-size: 1.5rem; color: var(--accent); }
+    
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(500px, 1fr)); gap: 30px; padding: 30px; max-width: 1600px; margin: 0 auto; }
     
     .card { 
-        background: var(--card-bg); border-radius: 12px; 
-        box-shadow: 0 4px 6px var(--shadow); display: flex; 
-        overflow: hidden; border: 1px solid var(--border-color); 
+        background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border);
+        box-shadow: var(--shadow); display: grid; grid-template-columns: 180px 1fr; overflow: hidden;
     }
     
-    .img-box { 
-        width: 160px; padding: 10px; display: flex; flex-direction: column; 
-        align-items: center; justify-content: center; background: var(--card-bg); 
-        border-right: 1px solid var(--border-color);
+    .img-col { 
+        padding: 20px; background: var(--badge-bg); display: flex; flex-direction: column; 
+        align-items: center; justify-content: center; border-right: 1px solid var(--border);
     }
+    img { width: 140px; height: 140px; object-fit: contain; }
     
-    img { width: 150px; height: 150px; object-fit: contain; transition: 0.3s; }
-    [data-theme="dark"] img { filter: brightness(0.85) contrast(1.1); }
+    .info-col { padding: 25px; display: flex; flex-direction: column; }
+    h2 { margin: 0 0 15px; font-size: 1.2rem; line-height: 1.3; }
+    
+    .specs { 
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; 
+    }
+    .badge {
+        font-size: 0.8rem; padding: 6px 10px; background: var(--bg); 
+        border: 1px solid var(--border); border-radius: 6px; 
+        display: flex; flex-direction: column;
+    }
+    .b-label { font-size: 0.7rem; color: var(--text-light); font-weight: 700; text-transform: uppercase; margin-bottom: 2px; }
+    .b-val { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    .timer { font-size: 0.8rem; margin-top: 5px; opacity: 0.7; }
+    .desc { font-size: 0.9rem; color: var(--text-light); line-height: 1.5; }
     
-    .info { padding: 15px; flex: 1; }
-    h2 { font-size: 1.1rem; margin: 0 0 15px 0; color: var(--text-color); line-height: 1.2; }
-    
-    /* BADGES / ETIQUETAS */
-    .specs-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr; /* Dos columnas */
-        gap: 8px;
-        margin-bottom: 15px;
+    button.toggle {
+        background: var(--bg); border: 1px solid var(--border); padding: 8px 16px; 
+        border-radius: 20px; cursor: pointer; color: var(--text); font-weight: 600;
     }
-    
-    .spec-item {
-        font-size: 0.8rem;
-        padding: 4px 8px;
-        border-radius: 6px;
-        background: var(--badge-bg);
-        border: 1px solid var(--border-color);
-        color: var(--badge-text);
-        display: flex;
-        align-items: center;
+    button.copy-btn {
+        background: var(--accent); color: white; border: none; padding: 5px 10px; 
+        border-radius: 4px; cursor: pointer; font-size: 0.8rem; margin-top: 5px;
     }
-    
-    .spec-key { font-weight: bold; color: var(--key-color); margin-right: 5px; }
-    
-    .desc { font-size: 0.85rem; opacity: 0.9; border-top: 1px solid var(--border-color); padding-top: 10px; }
-    details { margin-top: 5px; cursor: pointer; color: var(--accent); }
-    
-    .theme-toggle {
-        position: fixed; top: 20px; right: 20px;
-        background: var(--card-bg); border: 1px solid var(--border-color);
-        color: var(--text-color); padding: 10px 15px; border-radius: 30px;
-        cursor: pointer; box-shadow: 0 4px 10px var(--shadow);
-        font-size: 1.2rem; z-index: 1000;
+    button.copy-btn:active { transform: scale(0.95); }
+
+    @media (max-width: 768px) {
+        .grid { grid-template-columns: 1fr; padding: 15px; }
+        .card { grid-template-columns: 1fr; }
+        .img-col { border-right: none; border-bottom: 1px solid var(--border); flex-direction: row; justify-content: space-between; }
+        .specs { grid-template-columns: repeat(2, 1fr); }
     }
-    </style></head><body><button id="theme-toggle" class="theme-toggle" onclick="toggleTheme()">🌙</button><h1>💎 Catálogo Visual Kanela V7</h1><div class="grid">
+    </style></head>
+    <body>
+        <header>
+            <h1>💎 Kanela AI V11</h1>
+            <button id="toggle-btn" class="toggle" onclick="toggleTheme()">🌙 Modo Oscuro</button>
+        </header>
+        <div class="grid">
+    
         <div class="card">
-            <div class="img-box">
-                <img src="./imagenes_a_procesar/dije-crisantemo-01.jpg" onerror="this.src='https://placehold.co/150?text=Error'">
-                <span class="timer">⏱️ 424.13s</span>
+            <div class="img-col">
+                <img src="./imagenes_a_procesar/dije-crisantemo-01.jpg" onerror="this.src='https://placehold.co/150'">
+                <div style="margin-top:10px; font-size:0.8rem; font-weight:bold;">⏱️ 22.03s</div>
             </div>
-            <div class="info">
-                <h2>Daisy Charm</h2>
+            <div class="info-col">
+                <h2>Dije Flor Rosa</h2>
                 
-                <div class="specs-grid">
-                    <div class="spec-item"><span class="spec-key">📂 Categoría:</span> Bijouterie/Dijes</div>
-                    <div class="spec-item"><span class="spec-key">✨ Estilo:</span> Clásico</div>
-                    <div class="spec-item"><span class="spec-key">🛠️ Material:</span> aleacion</div>
-                    <div class="spec-item"><span class="spec-key">🎨 Color:</span> rosa</div>
-                    <div class="spec-item"><span class="spec-key">👤 Género:</span> mujer</div>
+                <div class="specs">
+                    <div class="badge"><span class="b-label">Categoría</span><span class="b-val" title="Bijouterie/Dijes">Bijouterie/Dijes</span></div>
+                    <div class="badge"><span class="b-label">Estilo</span><span class="b-val">Clásico</span></div>
+                    <div class="badge"><span class="b-label">Material</span><span class="b-val" title="Aleación">Aleación</span></div>
+                    <div class="badge"><span class="b-label">Color</span><span class="b-val">Rosa</span></div>
+                    <div class="badge"><span class="b-label">Género</span><span class="b-val">Mujer</span></div>
                 </div>
 
                 <div class="desc">
-                    Charm de flores con diseño de margarita en color rosa con detalles dorados....
-                    <details><summary>Ver Completo</summary><p>Este charm de flores es perfecto para joyería personalizada. Con su diseño detallado y color rosa suave, se adapta a una variedad de estilos y ocasiones. El dorado añade un toque de elegancia y sofisticación.</p></details>
+                    Dije en forma de flor con detalles dorados en el centro y en los bordes....
+                    <details>
+                        <summary>Ver y Copiar HTML</summary>
+                        <div style="background:var(--bg); padding:10px; border-radius:6px; margin-top:10px; border:1px solid var(--border);">
+                            <strong style="font-size:0.8rem;">Descripción Larga (HTML):</strong>
+                            <div id="desc-0" style="font-family:monospace; font-size:0.75rem; white-space:pre-wrap; margin:5px 0;">Este adorable dije en forma de flor es perfecto para cualquier joyería. Con detalles dorados en el centro y en los bordes, este dije añade un toque de elegancia a cualquier collar o pulsera. El material aleación asegura un acabado duradero y resistente.</div>
+                            <button class="copy-btn" onclick="copyToClipboard('desc-0')">📋 Copiar HTML</button>
+                        </div>
+                    </details>
                 </div>
             </div>
         </div></div>
@@ -96,16 +106,22 @@
         const body = document.body;
         const currentTheme = localStorage.getItem('theme');
         if (currentTheme) body.setAttribute('data-theme', currentTheme);
-        updateIcon(currentTheme || 'light');
+        updateText(currentTheme || 'light');
 
         function toggleTheme() {
             const newTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
             body.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
-            updateIcon(newTheme);
+            updateText(newTheme);
         }
-        function updateIcon(theme) {
-            document.getElementById('theme-toggle').innerText = theme === 'dark' ? '☀️ Luz' : '🌙 Oscuro';
+        function updateText(theme) {
+            document.getElementById('toggle-btn').innerText = theme === 'dark' ? '☀️ Modo Luz' : '🌙 Modo Oscuro';
+        }
+        function copyToClipboard(textId) {
+            const text = document.getElementById(textId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('¡HTML copiado al portapapeles!');
+            });
         }
     </script>
     </body></html>
